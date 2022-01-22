@@ -6,16 +6,36 @@
     "logoUrl": "https://res.cloudinary.com/lesswrong-2-0/image/upload/f_png/LessWrong_Logo_skglnw.svg",
     "siteNameWithArticle": "LessWrong",
     "siteUrl": "http://localhost:3000",
-    "aboutPostId": "dummyId",
+    "aboutPostId": "", // Forum PostId to link to from the about links
+    "contactPostId": "",
+    "introPostId": "",
+    "eaHomeSequenceId": "",  // for EA specific post links
+    "eaHomeSequenceFirstPostId": "",  // EA specific post links
     "faviconUrl": "https://res.cloudinary.com/lesswrong-2-0/image/upload/v1497915096/favicon_lncumn.ico",
     "forumSettings": {
       "headerTitle": "LESSWRONG",
       "shortForumTitle": "LW",
       "tabTitle": "LessWrong"
     },
+    "testServer": true, // ??
+    "hasEvents": false,
+    "sentry": {
+      "url": "",
+      "environment": "",
+      "release": ""
+    },
     "analytics": {
       "environment": "localhost"
     },
-    "testServer": true
+    "debug": false,
+    "instanceDebuggers": [],  // optional
+    "disallowCrawlers": false
+  },
+  "private": {  // Not sure where this private section is used?
+    "ckEditorOverride": {
+      "environmentId": "",
+      "secretKey": "",
+      "apiSecretKey": ""
+    }
   }
 }
