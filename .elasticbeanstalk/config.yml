@@ -2,13 +2,13 @@ branch-defaults:
   lw-devel:
     environment: LessestWrong
   ea-dev:
-    environment: EAForum-Staging-2
+    environment: GF-Forum-Staging
 global:
   # Use deploy.sh to change this to the correct application name
-  application_name: APPLICATION_NAME
+  application_name: GF-Forum
   branch: null
   default_platform: Docker
-  default_region: us-east-1
+  default_region: us-west-1
   include_git_submodules: true
   instance_profile: null
   platform_name: null

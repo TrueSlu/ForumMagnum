@@ -10,19 +10,19 @@ interface CommandLineArguments {
 
 const parseCommandLine = (argv: Array<string>): CommandLineArguments => {
   const commandLine: CommandLineArguments = {
-    mongoUrl: process.env.MONGO_URL || "mongodb://localhost:27017",
+    mongoUrl: process.env.MONGO_URL || "mongodb://host.docker.internal:27017",
     settingsFileName: "settings.json",
     shellMode: false,
   }
-  
+
   // Don't parse command-line arguments during unit testing (because jest passes
   // its command line arguments through).
   if (isAnyTest)
     return commandLine;
-  
-  for (let i=2; i<argv.length; i++) {
+
+  for (let i = 2; i < argv.length; i++) {
     const arg = argv[i];
-    switch(arg) {
+    switch (arg) {
       case "--settings":
         commandLine.settingsFileName = argv[++i];
         break;
@@ -33,7 +33,7 @@ const parseCommandLine = (argv: Array<string>): CommandLineArguments => {
         throw new Error(`Unrecognized command line argument: ${arg}`);
     }
   }
-  
+
   return commandLine;
 }
 
@@ -54,11 +54,11 @@ function loadSettingsFile(filename: string) {
     const settingsFileText = readTextFile(filename);
     if (!settingsFileText)
       throw new Error(`Settings file ${filename} not found.`);
-    
+
     return JSON.parse(settingsFileText);
   }
 }
 
-const readTextFile = (filename: string): string|null => {
+const readTextFile = (filename: string): string | null => {
   return fs.readFileSync(filename, 'utf8');
 }
