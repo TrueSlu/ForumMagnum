@@ -20,3 +20,4 @@ if [ "$(importDB)" == "Y"]; then
 if tput setaf 1 &> /dev/null; then
   tput sgr0;
 fi
+

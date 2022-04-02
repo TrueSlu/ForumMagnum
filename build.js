@@ -32,16 +32,16 @@ if (!isProduction) {
 const settingsFile = opts.settings || "settings.json"
 
 if (isProduction) {
-  process.env.NODE_ENV="production";
+  process.env.NODE_ENV = "production";
 } else {
-  process.env.NODE_ENV="development";
+  process.env.NODE_ENV = "development";
 }
 if (opts.mongoUrl) {
   process.env.MONGO_URL = opts.mongoUrl;
 } else if (opts.mongoUrlFile) {
   try {
     process.env.MONGO_URL = fs.readFileSync(opts.mongoUrlFile, 'utf8').trim();
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     process.exit(1);
   }
@@ -135,7 +135,7 @@ async function isServerReady() {
   try {
     const response = await fetch(`http://localhost:${serverPort}/robots.txt`);
     return response.ok;
-  } catch(e) {
+  } catch (e) {
     return false;
   }
 }
@@ -164,7 +164,7 @@ async function initiateRefresh() {
   if (refreshIsPending || clientRebuildInProgress || serverRebuildInProgress) {
     return;
   }
-  
+
   if (openWebsocketConnections.length > 0) {
     refreshIsPending = true;
     console.log("Initiated refresh; waiting for server to be ready");
@@ -183,7 +183,7 @@ function startWebsocketServer() {
   });
   server.on('connection', (ws) => {
     openWebsocketConnections.push(ws);
-    
+
     ws.on('message', (data) => {
     });
     ws.on('close', function close() {

@@ -34,15 +34,15 @@ const serifStack = [
 const palette = {
   primary: {
     // Affects <a>
-    main: "#C03A44",
-    dark: "#C03A44",
+    main: "#04b887",
+    dark: "#04b887",
   },
   secondary: {
-    main: "#C03A44",
+    main: "#04b887",
   },
   lwTertiary: {
-    main: "#C03A44",
-    dark: "#C03A44",
+    main: "#04b887",
+    dark: "#04b887",
   },
   error: {
     main: deepOrange[900],
@@ -105,18 +105,18 @@ const theme = createLWTheme({
       },
     },
 
-/*     MuiToolbar: {
-      gutters: {
-        '@media (min-width: 600px)': {
-          paddingLeft: 16,
-          paddingRight: 16,
-        },
-        '@media (max-width: 599px)': {
-          paddingLeft: 8,
-          paddingRight: 8,
-        },
-      },
-    }, */
+    /*     MuiToolbar: {
+          gutters: {
+            '@media (min-width: 600px)': {
+              paddingLeft: 16,
+              paddingRight: 16,
+            },
+            '@media (max-width: 599px)': {
+              paddingLeft: 8,
+              paddingRight: 8,
+            },
+          },
+        }, */
 
     PostsVote: {
       voteScores: {
