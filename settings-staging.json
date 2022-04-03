@@ -1,0 +1,22 @@
+{
+    "public": {
+        "forumType": "ProgressForum",
+        "title": "Genesis Forum ",
+        "tagline": "A forum for the Genesis community",
+        "siteNameWithArticle": "Genesis Forum",
+        "siteUrl": "https://forum.genesisfund.xyz",
+        "faviconUrl": "https://res.cloudinary.com/progress-forum/image/upload/v1646644987/media/favicon-192.png",
+        "aboutPostId": "XLKPhEd8EjfXonqcN",
+        "contactPostId": "MDfNKoXB5tCCtaHi7",
+        "forumSettings": {
+            "headerTitle": "Genesis Forum",
+            "shortForumTitle": "GF",
+            "tabTitle": "Genesis Forum"
+        },
+        "private": {},
+        "analytics": {
+            "environment": "production"
+        },
+        "testServer": false
+    }
+}
