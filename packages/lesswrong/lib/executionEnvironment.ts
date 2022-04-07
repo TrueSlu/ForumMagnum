@@ -13,8 +13,8 @@ export const isProduction = bundleIsProduction
 export const isAnyTest = bundleIsTest
 export const isPackageTest = bundleIsTest
 
-export const onStartupFunctions: Array<()=>void> = [];
-export const onStartup = (fn: ()=>void) => {
+export const onStartupFunctions: Array<() => void> = [];
+export const onStartup = (fn: () => void) => {
   onStartupFunctions.push(fn);
 }
 
@@ -37,7 +37,7 @@ export const setInstanceSettings = (settings: any) => {
 }
 
 export const getAbsoluteUrl = (maybeRelativeUrl?: string): string => {
-  if (defaultSiteAbsoluteUrl?.length>0) {
+  if (defaultSiteAbsoluteUrl?.length > 0) {
     return defaultSiteAbsoluteUrl;
   } else {
     return "http://localhost:3000/"

@@ -19,7 +19,7 @@ import { formGroups } from './formGroups';
 import { userOverNKarmaFunc } from "../../vulcan-users";
 
 const isEAForum = forumTypeSetting.get() === 'EAForum'
-function eaFrontpageDate (document: Partial<DbPost>) {
+function eaFrontpageDate(document: Partial<DbPost>) {
   if (document.isEvent || !document.submitToFrontpage) {
     return undefined
   }
@@ -29,7 +29,7 @@ const frontpageDefault = isEAForum ?
   eaFrontpageDate :
   undefined
 
-const userHasModerationGuidelines = (currentUser: DbUser|null): boolean => {
+const userHasModerationGuidelines = (currentUser: DbUser | null): boolean => {
   return !!(currentUser && ((currentUser.moderationGuidelines && currentUser.moderationGuidelines.html) || currentUser.moderationStyle))
 }
 
@@ -97,7 +97,7 @@ addFieldsDict(Posts, {
     insertableBy: ['admins'],
     group: formGroups.adminOptions
   },
- 
+
 
   // lastVisitedAt: If the user is logged in and has viewed this post, the date
   // they last viewed it. Otherwise, null.
@@ -117,14 +117,14 @@ addFieldsDict(Posts, {
       return readStatus[0].lastUpdated;
     }
   }),
-  
+
   isRead: resolverOnlyField({
     type: Boolean,
     viewableBy: ['guests'],
     resolver: async (post: DbPost, args: void, context: ResolverContext) => {
       const { ReadStatuses, currentUser } = context;
       if (!currentUser) return false;
-      
+
       const readStatus = await getWithLoader(context, ReadStatuses,
         `readStatuses`,
         { userId: currentUser._id },
@@ -169,7 +169,7 @@ addFieldsDict(Posts, {
     resolveAs: {
       fieldName: 'suggestForCuratedUsernames',
       type: 'String',
-      resolver: async (post: DbPost, args: void, context: ResolverContext): Promise<string|null> => {
+      resolver: async (post: DbPost, args: void, context: ResolverContext): Promise<string | null> => {
         // TODO - Turn this into a proper resolve field.
         // Ran into weird issue trying to get this to be a proper "users"
         // resolve field. Wasn't sure it actually needed to be anyway,
@@ -237,7 +237,7 @@ addFieldsDict(Posts, {
     foreignKey: 'Users',
     optional: true
   },
-  
+
   // Cloudinary image id for an image that will be used as the OpenGraph image
   socialPreviewImageId: {
     type: String,
@@ -249,7 +249,7 @@ addFieldsDict(Posts, {
     control: "ImageUpload",
     group: formGroups.advancedOptions,
   },
-  
+
   // Autoset OpenGraph image, derived from the first post image in a callback
   socialPreviewImageAutoUrl: {
     type: String,
@@ -297,9 +297,9 @@ addFieldsDict(Posts, {
       type: "Collection",
       // TODO: Make sure we run proper access checks on this. Using slugs means it doesn't
       // work out of the box with the id-resolver generators
-      resolver: async (post: DbPost, args: void, context: ResolverContext): Promise<DbCollection|null> => {
+      resolver: async (post: DbPost, args: void, context: ResolverContext): Promise<DbCollection | null> => {
         if (!post.canonicalCollectionSlug) return null;
-        const collection = await context.Collections.findOne({slug: post.canonicalCollectionSlug})
+        const collection = await context.Collections.findOne({ slug: post.canonicalCollectionSlug })
         return await accessFilterSingle(context.currentUser, context.Collections, collection, context);
       }
     },
@@ -360,7 +360,7 @@ addFieldsDict(Posts, {
     graphQLtype: "Post",
     viewableBy: ['guests'],
     graphqlArguments: 'sequenceId: String',
-    resolver: async (post: DbPost, args: {sequenceId: string}, context: ResolverContext) => {
+    resolver: async (post: DbPost, args: { sequenceId: string }, context: ResolverContext) => {
       const { sequenceId } = args;
       const { currentUser, Posts } = context;
       if (sequenceId) {
@@ -372,7 +372,7 @@ addFieldsDict(Posts, {
             return nextPostFiltered;
         }
       }
-      if(post.canonicalSequenceId) {
+      if (post.canonicalSequenceId) {
         const nextPostID = await sequenceGetNextPostID(post.canonicalSequenceId, post._id, context);
         if (nextPostID) {
           const nextPost = await context.loaders.Posts.load(nextPostID);
@@ -400,7 +400,7 @@ addFieldsDict(Posts, {
     graphQLtype: "Post",
     viewableBy: ['guests'],
     graphqlArguments: 'sequenceId: String',
-    resolver: async (post: DbPost, args: {sequenceId: string}, context: ResolverContext) => {
+    resolver: async (post: DbPost, args: { sequenceId: string }, context: ResolverContext) => {
       const { sequenceId } = args;
       const { currentUser, Posts } = context;
       if (sequenceId) {
@@ -413,7 +413,7 @@ addFieldsDict(Posts, {
           }
         }
       }
-      if(post.canonicalSequenceId) {
+      if (post.canonicalSequenceId) {
         const prevPostID = await sequenceGetPrevPostID(post.canonicalSequenceId, post._id, context);
         if (prevPostID) {
           const prevPost = await context.loaders.Posts.load(prevPostID);
@@ -445,10 +445,10 @@ addFieldsDict(Posts, {
     graphQLtype: "Sequence",
     viewableBy: ['guests'],
     graphqlArguments: 'sequenceId: String',
-    resolver: async (post: DbPost, args: {sequenceId: string}, context: ResolverContext) => {
+    resolver: async (post: DbPost, args: { sequenceId: string }, context: ResolverContext) => {
       const { sequenceId } = args;
       const { currentUser } = context;
-      let sequence: DbSequence|null = null;
+      let sequence: DbSequence | null = null;
       if (sequenceId && await sequenceContainsPost(sequenceId, post._id, context)) {
         sequence = await context.loaders.Sequences.load(sequenceId);
       } else if (post.canonicalSequenceId) {
@@ -599,8 +599,8 @@ addFieldsDict(Posts, {
     type: Boolean,
     viewableBy: ['guests'],
     group: formGroups.moderationGroup,
-    insertableBy: (currentUser: DbUser|null) => userCanCommentLock(currentUser, null),
-    editableBy: (currentUser: DbUser|null, document: DbPost) => userCanCommentLock(currentUser, document),
+    insertableBy: (currentUser: DbUser | null) => userCanCommentLock(currentUser, null),
+    editableBy: (currentUser: DbUser | null, document: DbPost) => userCanCommentLock(currentUser, document),
     optional: true,
     control: "checkbox",
   },
@@ -721,7 +721,7 @@ addFieldsDict(Posts, {
     type: Date,
     viewableBy: ['guests'],
   },
-  
+
   eventRegistrationLink: {
     type: String,
     hidden: (props) => !props.eventForm,
@@ -735,7 +735,7 @@ addFieldsDict(Posts, {
     regEx: SimpleSchema.RegEx.Url,
     tooltip: 'https://...'
   },
-  
+
   joinEventLink: {
     type: String,
     hidden: (props) => !props.eventForm,
@@ -761,7 +761,7 @@ addFieldsDict(Posts, {
     order: 0,
     ...schemaDefaultValue(false),
   },
-  
+
   globalEvent: {
     type: Boolean,
     hidden: (props) => !props.eventForm,
@@ -837,7 +837,7 @@ addFieldsDict(Posts, {
     regEx: SimpleSchema.RegEx.Url,
     tooltip: 'https://www.facebook.com/events/...'
   },
-  
+
   meetupLink: {
     type: String,
     hidden: (props) => !props.eventForm,
@@ -864,7 +864,7 @@ addFieldsDict(Posts, {
     regEx: SimpleSchema.RegEx.Url,
     tooltip: 'https://...'
   },
-  
+
   eventImageId: {
     type: String,
     optional: true,
@@ -899,7 +899,7 @@ addFieldsDict(Posts, {
   },
 
   metaSticky: {
-    order:10,
+    order: 10,
     type: Boolean,
     optional: true,
     label: "Sticky (Meta)",
@@ -910,7 +910,7 @@ addFieldsDict(Posts, {
     insertableBy: ['admins'],
     control: 'checkbox',
     onInsert: (post) => {
-      if(!post.metaSticky) {
+      if (!post.metaSticky) {
         return false;
       }
     },
@@ -933,7 +933,7 @@ addFieldsDict(Posts, {
     blackbox: true,
     hidden: true,
   },
-  
+
   shareWithUsers: {
     type: Array,
     order: 15,
@@ -979,8 +979,8 @@ addFieldsDict(Posts, {
     graphQLtype: GraphQLJSON,
     resolver: async (document: DbPost, args: void, context: ResolverContext) => {
       try {
-        return await Utils.getToCforPost({document, version: null, context});
-      } catch(e) {
+        return await Utils.getToCforPost({ document, version: null, context });
+      } catch (e) {
         captureException(e);
         return null;
       }
@@ -992,11 +992,11 @@ addFieldsDict(Posts, {
     viewableBy: ['guests'],
     graphQLtype: GraphQLJSON,
     graphqlArguments: 'version: String',
-    resolver: async (document: DbPost, args: {version:string}, context: ResolverContext) => {
-      const { version=null } = args;
+    resolver: async (document: DbPost, args: { version: string }, context: ResolverContext) => {
+      const { version = null } = args;
       try {
-        return await Utils.getToCforPost({document, version, context});
-      } catch(e) {
+        return await Utils.getToCforPost({ document, version, context });
+      } catch (e) {
         captureException(e);
         return null;
       }
@@ -1013,15 +1013,15 @@ addFieldsDict(Posts, {
       type: 'Boolean',
       resolver: async (post: DbPost, args: void, context: ResolverContext): Promise<boolean> => {
         const { LWEvents, currentUser } = context;
-        if(currentUser){
+        if (currentUser) {
           const query = {
-            name:'toggled-user-moderation-guidelines',
+            name: 'toggled-user-moderation-guidelines',
             documentId: post.userId,
             userId: currentUser._id
           }
-          const sort = {sort:{createdAt:-1}}
+          const sort = { sort: { createdAt: -1 } }
           const event = await LWEvents.findOne(query, sort);
-          const author = await context.Users.findOne({_id: post.userId});
+          const author = await context.Users.findOne({ _id: post.userId });
           if (event) {
             return !!(event.properties && event.properties.targetState)
           } else {
@@ -1049,15 +1049,15 @@ addFieldsDict(Posts, {
     form: {
       options: function () { // options for the select form control
         return [
-          {value: "", label: "No Moderation"},
-          {value: "easy-going", label: "Easy Going - I just delete obvious spam and trolling."},
-          {value: "norm-enforcing", label: "Norm Enforcing - I try to enforce particular rules (see below)"},
-          {value: "reign-of-terror", label: "Reign of Terror - I delete anything I judge to be annoying or counterproductive"},
+          { value: "", label: "No Moderation" },
+          { value: "easy-going", label: "Easy Going - I just delete obvious spam and trolling." },
+          { value: "norm-enforcing", label: "Norm Enforcing - I try to enforce particular rules (see below)" },
+          { value: "reign-of-terror", label: "Reign of Terror - I delete anything I judge to be annoying or counterproductive" },
         ];
       }
     },
   },
-  
+
   // On a post, do not show comment karma
   hideCommentKarma: {
     type: Boolean,
@@ -1075,7 +1075,7 @@ addFieldsDict(Posts, {
     type: Number,
     optional: true,
     defaultValue: 0,
-    
+
     ...denormalizedCountOfReferences({
       fieldName: "commentCount",
       collectionName: "Posts",
@@ -1086,26 +1086,26 @@ addFieldsDict(Posts, {
     }),
     canRead: ['guests'],
   },
-  
+
   recentComments: resolverOnlyField({
     type: Array,
     graphQLtype: "[Comment]",
     viewableBy: ['guests'],
     graphqlArguments: 'commentsLimit: Int, maxAgeHours: Int, af: Boolean',
-    resolver: async (post: DbPost, args: {commentsLimit?: number, maxAgeHours?: number, af?: boolean}, context: ResolverContext) => {
-      const { commentsLimit=5, maxAgeHours=18, af=false } = args;
+    resolver: async (post: DbPost, args: { commentsLimit?: number, maxAgeHours?: number, af?: boolean }, context: ResolverContext) => {
+      const { commentsLimit = 5, maxAgeHours = 18, af = false } = args;
       const { currentUser, Comments } = context;
       const timeCutoff = moment(post.lastCommentedAt).subtract(maxAgeHours, 'hours').toDate();
       const comments = await Comments.find({
         ...Comments.defaultView({}).selector,
         postId: post._id,
-        score: {$gt:0},
+        score: { $gt: 0 },
         deletedPublic: false,
-        postedAt: {$gt: timeCutoff},
-        ...(af ? {af:true} : {}),
+        postedAt: { $gt: timeCutoff },
+        ...(af ? { af: true } : {}),
       }, {
         limit: commentsLimit,
-        sort: {postedAt:-1}
+        sort: { postedAt: -1 }
       }).fetch();
       return await accessFilterMultiple(currentUser, Comments, comments, context);
     }

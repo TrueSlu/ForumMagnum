@@ -12,7 +12,7 @@ import { userIdentifiedCallback } from '../../lib/analyticsEvents';
 import { MessageContext } from '../common/withMessages';
 import type { RouterLocation } from '../../lib/vulcan-lib/routes';
 
-const siteImageSetting = new DatabasePublicSetting<string | null>('siteImage', "https://res.cloudinary.com/progress-forum/image/upload/v1647499492/media/externalthumbnail.png") // An image used to represent the site on social media
+const siteImageSetting = new DatabasePublicSetting<string | null>('siteImage', "https://res.cloudinary.com/dxlqg5jlu/image/upload/v1649313687/banner_nzhhyt.png") // An image used to represent the site on social media
 
 interface ExternalProps {
   apolloClient: any
@@ -22,16 +22,16 @@ interface AppProps extends ExternalProps {
   // From withRouter
   location: any
   history: any
-  
+
   // From withCurrentUser HoC
   currentUser: UsersCurrent
 }
 
-class App extends PureComponent<AppProps,any> {
-  locationContext: RouterLocation|null = null
-  subscribeLocationContext: RouterLocation|null = null
+class App extends PureComponent<AppProps, any> {
+  locationContext: RouterLocation | null = null
+  subscribeLocationContext: RouterLocation | null = null
   navigationContext: any
-  
+
   constructor(props: AppProps) {
     super(props);
     if (props.currentUser) {
@@ -68,10 +68,10 @@ class App extends PureComponent<AppProps,any> {
     // When clearing messages, we first set all current messages to have a hide property
     // And only after 500ms set the array to empty, to allow UI elements to show a fade-out animation
     this.setState({
-      messages: this.state.messages.map(message => ({...message, hide: true}))
+      messages: this.state.messages.map(message => ({ ...message, hide: true }))
     })
     setTimeout(() => {
-      this.setState({ messages: []});
+      this.setState({ messages: [] });
     }, 500)
   }
 
@@ -93,23 +93,23 @@ class App extends PureComponent<AppProps,any> {
       });
     }
   }
-  
+
   render() {
     const { flash } = this;
     const { messages } = this.state;
     const { currentUser, serverRequestStatus } = this.props;
 
     // Parse the location into a route/params/query/etc.
-    const location = parseRoute({location: this.props.location});
-    
+    const location = parseRoute({ location: this.props.location });
+
     if (location.redirected) {
-      return <Components.PermanentRedirect url={location.url}/>
+      return <Components.PermanentRedirect url={location.url} />
     }
-    
+
     // Reuse the container objects for location and navigation context, so that
     // they will be reference-stable and won't trigger spurious rerenders.
     if (!this.locationContext) {
-      this.locationContext = {...location};
+      this.locationContext = { ...location };
     } else {
       Object.assign(this.locationContext, location);
     }
@@ -125,7 +125,7 @@ class App extends PureComponent<AppProps,any> {
     // subscribeLocationContext changes (by shallow comparison) whenever the
     // URL changes.
     if (!this.subscribeLocationContext || this.subscribeLocationContext.pathname != location.pathname) {
-      this.subscribeLocationContext = {...location};
+      this.subscribeLocationContext = { ...location };
     } else {
       Object.assign(this.subscribeLocationContext, location);
     }
@@ -133,21 +133,21 @@ class App extends PureComponent<AppProps,any> {
     const { RouteComponent } = location;
     return (
       <LocationContext.Provider value={this.locationContext}>
-      <SubscribeLocationContext.Provider value={this.subscribeLocationContext}>
-      <NavigationContext.Provider value={this.navigationContext}>
-      <ServerRequestStatusContext.Provider value={serverRequestStatus||null}>
-      <IntlProvider locale={this.getLocale()} key={this.getLocale()} messages={Strings[this.getLocale()]}>
-        <MessageContext.Provider value={{ messages, flash, clear: this.clear }}>
-          <Components.HeadTags image={siteImageSetting.get()} />
-          <Components.ScrollToTop />
-          <Components.Layout currentUser={currentUser} messages={messages}>
-            <RouteComponent />
-          </Components.Layout>
-        </MessageContext.Provider>
-      </IntlProvider>
-      </ServerRequestStatusContext.Provider>
-      </NavigationContext.Provider>
-      </SubscribeLocationContext.Provider>
+        <SubscribeLocationContext.Provider value={this.subscribeLocationContext}>
+          <NavigationContext.Provider value={this.navigationContext}>
+            <ServerRequestStatusContext.Provider value={serverRequestStatus || null}>
+              <IntlProvider locale={this.getLocale()} key={this.getLocale()} messages={Strings[this.getLocale()]}>
+                <MessageContext.Provider value={{ messages, flash, clear: this.clear }}>
+                  <Components.HeadTags image={siteImageSetting.get()} />
+                  <Components.ScrollToTop />
+                  <Components.Layout currentUser={currentUser} messages={messages}>
+                    <RouteComponent />
+                  </Components.Layout>
+                </MessageContext.Provider>
+              </IntlProvider>
+            </ServerRequestStatusContext.Provider>
+          </NavigationContext.Provider>
+        </SubscribeLocationContext.Provider>
       </LocationContext.Provider>
     );
   }

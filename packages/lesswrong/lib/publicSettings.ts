@@ -3,11 +3,11 @@ import { getPublicSettings, getPublicSettingsLoaded, registeredSettings } from '
 
 const getNestedProperty = function (obj, desc) {
   var arr = desc.split('.');
-  while(arr.length && (obj = obj[arr.shift()]));
+  while (arr.length && (obj = obj[arr.shift()]));
   return obj;
 };
 
-export function initializeSetting(settingName: string, settingType: "server" | "public" | "instance")  {
+export function initializeSetting(settingName: string, settingType: "server" | "public" | "instance") {
   if (registeredSettings[settingName]) throw Error(`Already initialized a setting with name ${settingName} before.`)
   registeredSettings[settingName] = settingType
 }
@@ -30,7 +30,7 @@ export function initializeSetting(settingName: string, settingType: "server" | "
 */
 export class DatabasePublicSetting<SettingValueType> {
   constructor(
-    private settingName: string, 
+    private settingName: string,
     private defaultValue: SettingValueType
   ) {
     initializeSetting(settingName, "public")

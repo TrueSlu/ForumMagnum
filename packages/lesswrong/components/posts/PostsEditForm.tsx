@@ -8,10 +8,10 @@ import { useLocation, useNavigation } from '../../lib/routeUtil'
 import NoSsr from '@material-ui/core/NoSsr';
 import { styles } from './PostsNewForm';
 import { useDialog } from "../common/withDialog";
-import {useCurrentUser} from "../common/withUser";
+import { useCurrentUser } from "../common/withUser";
 import { useUpdate } from "../../lib/crud/withUpdate";
 import { afNonMemberSuccessHandling } from "../../lib/alignment-forum/displayAFNonMemberPopups";
-import {testServerSetting} from "../../lib/instanceSettings";
+import { testServerSetting } from "../../lib/instanceSettings";
 
 const PostsEditForm = ({ documentId, eventForm, classes }: {
   documentId: string,
@@ -41,12 +41,12 @@ const PostsEditForm = ({ documentId, eventForm, classes }: {
       />
     </div>
   }
-  
+
   const { mutate: updatePost } = useUpdate({
     collectionName: "Posts",
     fragmentName: 'SuggestAlignmentPost',
   })
-  
+
   function isCollaborative(post): boolean {
     if (!post) return false;
     if (!post._id) return false;
@@ -55,19 +55,20 @@ const PostsEditForm = ({ documentId, eventForm, classes }: {
       return true;
     return false;
   }
-  
-  
+
+
   if (!testServerSetting.get() && isCollaborative(document)) {
     return <Components.SingleColumnSection>
       <p>This post has experimental collaborative editing enabled.</p>
       <p>It can only be edited on the development server.</p>
-      <a className={classes.collaborativeRedirectLink} href={`https://www.lessestwrong.com/editPost?postId=${document?._id}`}>
+      <p>haha jk this is steven and i don't want to pay for collaborative editing thx byeeeee</p>
+      {/* <a className={classes.collaborativeRedirectLink} href={`https://www.lessestwrong.com/editPost?postId=${document?._id}`}>
         <h1>EDIT THE POST HERE</h1>
-      </a>     
+      </a>       REMOVED BY STEVEN LU*/}
     </Components.SingleColumnSection>
   }
-      
-  
+
+
   return (
     <div className={classes.postForm}>
       <HeadTags title={document?.title} />
@@ -79,9 +80,9 @@ const PostsEditForm = ({ documentId, eventForm, classes }: {
           mutationFragment={getFragment('PostsEdit')}
           successCallback={post => {
             const alreadySubmittedToAF = post.suggestForAlignmentUserIds && post.suggestForAlignmentUserIds.includes(post.userId)
-            if (!post.draft && !alreadySubmittedToAF) afNonMemberSuccessHandling({currentUser, document: post, openDialog, updateDocument: updatePost})
-            flash({ messageString: `Post "${post.title}" edited.`, type: 'success'});
-            history.push({pathname: postGetPageUrl(post)});
+            if (!post.draft && !alreadySubmittedToAF) afNonMemberSuccessHandling({ currentUser, document: post, openDialog, updateDocument: updatePost })
+            flash({ messageString: `Post "${post.title}" edited.`, type: 'success' });
+            history.push({ pathname: postGetPageUrl(post) });
           }}
           eventForm={eventForm}
           removeSuccessCallback={({ documentId, documentTitle }) => {
@@ -91,13 +92,13 @@ const PostsEditForm = ({ documentId, eventForm, classes }: {
               history.push('/');
             }
 
-            flash({ messageString: `Post "${documentTitle}" deleted.`, type: 'success'});
+            flash({ messageString: `Post "${documentTitle}" deleted.`, type: 'success' });
             // todo: handle events in collection callbacks
             // this.context.events.track("post deleted", {_id: documentId});
           }}
           showRemove={true}
           submitLabel={isDraft ? "Publish" : "Publish Changes"}
-          formComponents={{FormSubmit:EditPostsSubmit}}
+          formComponents={{ FormSubmit: EditPostsSubmit }}
           extraVariables={{
             version: 'String'
           }}
@@ -108,7 +109,7 @@ const PostsEditForm = ({ documentId, eventForm, classes }: {
   );
 }
 
-const PostsEditFormComponent = registerComponent('PostsEditForm', PostsEditForm, {styles});
+const PostsEditFormComponent = registerComponent('PostsEditForm', PostsEditForm, { styles });
 
 declare global {
   interface ComponentTypes {

@@ -9,7 +9,7 @@ const isEAForum = forumTypeSetting.get() === "EAForum"
 
 const RecentDiscussionFeed = ({
   commentsLimit, maxAgeHours, af,
-  title="Recent Discussion", shortformButton=true
+  title = "Recent Discussion", shortformButton = true
 }: {
   commentsLimit?: number,
   maxAgeHours?: number,
@@ -19,26 +19,26 @@ const RecentDiscussionFeed = ({
 }) => {
   const [expandAllThreads, setExpandAllThreads] = useState(false);
   const [showShortformFeed, setShowShortformFeed] = useState(false);
-  const refetchRef = useRef<null|(()=>void)>(null);
+  const refetchRef = useRef<null | (() => void)>(null);
   const currentUser = useCurrentUser();
   const expandAll = currentUser?.noCollapseCommentsFrontpage || expandAllThreads
-  
+
   useGlobalKeydown(event => {
     const F_Key = 70
     if ((event.metaKey || event.ctrlKey) && event.keyCode == F_Key) {
       setExpandAllThreads(true);
     }
   });
-  
+
   const toggleShortformFeed = useCallback(
     () => {
       setShowShortformFeed(!showShortformFeed);
     },
     [setShowShortformFeed, showShortformFeed]
   );
-  
+
   const { SingleColumnSection, SectionTitle, SectionButton, ShortformSubmitForm, MixedTypeFeed, RecentDiscussionThread, RecentDiscussionTagRevisionItem, RecentDiscussionTag, RecentDiscussionSubscribeReminder, RecentDiscussionMeetupsPoke } = Components
-  
+
   const refetch = useCallback(() => {
     if (refetchRef.current)
       refetchRef.current();
@@ -54,7 +54,7 @@ const RecentDiscussionFeed = ({
           </SectionButton>
         </div>}
       </SectionTitle>
-      {showShortformFeed && <ShortformSubmitForm successCallback={refetch}/>}
+      {showShortformFeed && <ShortformSubmitForm successCallback={refetch} />}
       <MixedTypeFeed
         firstPageSize={10}
         pageSize={20}
@@ -107,11 +107,12 @@ const RecentDiscussionFeed = ({
           },
           subscribeReminder: {
             fragmentName: null,
-            render: () => <RecentDiscussionSubscribeReminder/>
+            render: () => <RecentDiscussionSubscribeReminder />
           },
           meetupsPoke: {
             fragmentName: null,
-            render: () => isEAForum ? null : <RecentDiscussionMeetupsPoke/>
+            // render: () => isEAForum ? null : <RecentDiscussionMeetupsPoke/> //CHANGED BY STEVEN LU
+            render: () => null
           },
         }}
       />

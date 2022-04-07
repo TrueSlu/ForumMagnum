@@ -399,16 +399,17 @@ export const menuTabs: ForumOptions<Array<MenuTab>> = {
       showOnMobileStandalone: true,
       showOnCompressed: true,
     },
-    {
-      id: "events",
-      title: "Community",
-      mobileTitle: "Community",
-      link: communityPath,
-      iconComponent: SupervisedUserCircleIcon,
-      tooltip: "Groups and events in your area",
-      showOnMobileStandalone: true,
-      showOnCompressed: true,
-    },
+    // REMOVED BY STEVEN LU
+    // {
+    //   id: "events",
+    //   title: "Community",
+    //   mobileTitle: "Community",
+    //   link: communityPath,
+    //   iconComponent: SupervisedUserCircleIcon,
+    //   tooltip: "Groups and events in your area",
+    //   showOnMobileStandalone: true,
+    //   showOnCompressed: true,
+    // },
     {
       id: "eventsList",
       customComponentName: "EventsList",

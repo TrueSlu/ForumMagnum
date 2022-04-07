@@ -10,7 +10,7 @@ interface CommandLineArguments {
 
 const parseCommandLine = (argv: Array<string>): CommandLineArguments => {
   const commandLine: CommandLineArguments = {
-    mongoUrl: process.env.MONGO_URL || "mongodb://host.docker.internal:27017",
+    mongoUrl: process.env.MONGO_URL || process.env.NODE_ENV === "production" ? "mongodb://host.docker.internal:27017" : "mongodb://localhost:27017",
     settingsFileName: "settings.json",
     shellMode: false,
   }
