@@ -80,3 +80,5 @@ cypress/screenshots/*
 cypress/videos/*
 !cypress/screenshots/.keep
 !cypress/videos/.keep
+
+credentials_secret.json
