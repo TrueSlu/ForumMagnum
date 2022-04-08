@@ -8,7 +8,7 @@ import { useCurrentUser } from '../common/withUser';
 import { legacyBreakpoints } from '../../lib/utils/theme';
 import { postBodyStyles } from '../../themes/stylePiping'
 import { sectionFooterLeftStyles } from '../users/UsersProfile'
-import {AnalyticsContext} from "../../lib/analyticsEvents";
+import { AnalyticsContext } from "../../lib/analyticsEvents";
 
 export const sequencesImageScrim = (theme: ThemeType) => ({
   position: 'absolute',
@@ -24,7 +24,7 @@ const styles = (theme: ThemeType): JssStyles => ({
     paddingTop: 380,
   },
   titleWrapper: {
-    paddingLeft: theme.spacing.unit/2
+    paddingLeft: theme.spacing.unit / 2
   },
   title: {
     fontFamily: theme.typography.uiSecondary.fontFamily,
@@ -33,7 +33,7 @@ const styles = (theme: ThemeType): JssStyles => ({
   },
   description: {
     marginTop: theme.spacing.unit * 2,
-    marginLeft: theme.spacing.unit/2,
+    marginLeft: theme.spacing.unit / 2,
     marginBottom: theme.spacing.unit * 2,
     ...postBodyStyles(theme),
   },
@@ -90,8 +90,8 @@ const SequencesPage = ({ documentId, classes }: {
   documentId: string,
   classes: ClassesType
 }) => {
-  const [edit,setEdit] = useState(false);
-  const [showNewChapterForm,setShowNewChapterForm] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [showNewChapterForm, setShowNewChapterForm] = useState(false);
   const currentUser = useCurrentUser();
   const { document, loading } = useSingle({
     documentId,
@@ -110,12 +110,12 @@ const SequencesPage = ({ documentId, classes }: {
     ChaptersList, ChaptersNewForm, FormatDate, Loading, SectionFooter, UsersName,
     ContentItemBody, Typography, SectionButton,
   } = Components
-  
+
   if (document?.isDeleted) return <h3>This sequence has been deleted</h3>
   if (loading) return <Loading />
-  
+
   if (!document) {
-    return <Components.Error404/>
+    return <Components.Error404 />
   }
   if (edit) return (
     <SequencesEditForm
@@ -131,19 +131,19 @@ const SequencesPage = ({ documentId, classes }: {
 
   if (!canEdit && document.draft)
     throw new Error('This sequence is a draft and is not publicly visible')
-    
+
   return <div className={classes.root}>
-    <HeadTags canonicalUrl={sequenceGetPageUrl(document, true)} title={document.title}/>
+    <HeadTags canonicalUrl={sequenceGetPageUrl(document, true)} title={document.title} />
     <div className={classes.banner}>
       <div className={classes.bannerWrapper}>
         <NoSSR>
           <div>
             <CloudinaryImage
-              publicId={document.bannerImageId || "sequences/vnyzzznenju0hzdv6pqb.jpg"}
+              publicId={document.bannerImageId || document.gridImageId || "sequences/vnyzzznenju0hzdv6pqb.jpg"}
               width="auto"
               height="380"
             />
-            <div className={classes.imageScrim}/>
+            <div className={classes.imageScrim} />
           </div>
         </NoSSR>
       </div>
@@ -157,7 +157,7 @@ const SequencesPage = ({ documentId, classes }: {
         </div>
         <SectionFooter>
           <div className={classes.meta}>
-            <span className={classes.metaItem}><FormatDate date={document.createdAt} format="MMM DD, YYYY"/></span>
+            <span className={classes.metaItem}><FormatDate date={document.createdAt} format="MMM DD, YYYY" /></span>
             {document.user && <span className={classes.metaItem}> by <UsersName user={document.user}>
               {document.user.displayName}
             </UsersName></span>}
@@ -166,9 +166,9 @@ const SequencesPage = ({ documentId, classes }: {
             <a onClick={showEdit}>edit</a>
           </SectionSubtitle></span>}
         </SectionFooter>
-        
+
         <div className={classes.description}>
-          {html && <ContentItemBody dangerouslySetInnerHTML={{__html: html}} description={`sequence ${document._id}`}/>}
+          {html && <ContentItemBody dangerouslySetInnerHTML={{ __html: html }} description={`sequence ${document._id}`} />}
         </div>
         <div>
           <AnalyticsContext listContext={"sequencePage"} sequenceId={document._id} capturePostItemOnMount>
@@ -179,14 +179,14 @@ const SequencesPage = ({ documentId, classes }: {
               <a onClick={() => setShowNewChapterForm(true)}>Add Chapter</a>
             </SectionButton>
           </SectionFooter>}
-          {showNewChapterForm && <ChaptersNewForm prefilledProps={{sequenceId: document._id}}/>}
+          {showNewChapterForm && <ChaptersNewForm prefilledProps={{ sequenceId: document._id }} />}
         </div>
       </div>
     </SingleColumnSection>
   </div>
 }
 
-const SequencesPageComponent = registerComponent('SequencesPage', SequencesPage, {styles});
+const SequencesPageComponent = registerComponent('SequencesPage', SequencesPage, { styles });
 
 declare global {
   interface ComponentTypes {
