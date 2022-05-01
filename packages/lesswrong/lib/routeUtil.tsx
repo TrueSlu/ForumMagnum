@@ -8,17 +8,17 @@ import { ForumOptions, forumSelect } from './forumTypeUtils';
 
 // Given the props of a component which has withRouter, return the parsed query
 // from the URL.
-export function parseQuery(location): Record<string,string> {
+export function parseQuery(location): Record<string, string> {
   let query = location?.search;
   if (!query) return {};
-  
+
   // The unparsed query string looks like ?foo=bar&numericOption=5&flag but the
   // 'qs' parser wants it without the leading question mark, so strip the
   // question mark.
   if (query.startsWith('?'))
     query = query.substr(1);
-    
-  return qs.parse(query) as Record<string,string>;
+
+  return qs.parse(query) as Record<string, string>;
 }
 
 // React Hook which returns the page location (parsed URL and route).
@@ -53,7 +53,7 @@ export const useLocation = (): RouterLocation => {
 // React Hook which returns the server-side server request status, used to set 404s or redirects
 // The relevant handling happens in the renderPage function
 // This hook only works on the server and will throw an error when called on the client
-export const useServerRequestStatus = (): ServerRequestStatusContextType|null => {
+export const useServerRequestStatus = (): ServerRequestStatusContextType | null => {
   return useContext(ServerRequestStatusContext)
 }
 
@@ -116,7 +116,7 @@ export const removeUrlParameters = (url: string, queryParameterBlacklist: string
   if (url.indexOf("?") < 0) return url;
   const [baseUrl, queryAndHash] = url.split("?");
   const [query, hash] = queryAndHash.split("#");
-  
+
   const parsedQuery = qs.parse(query);
   let filteredQuery = {};
   for (let key of _.keys(parsedQuery)) {
@@ -124,8 +124,8 @@ export const removeUrlParameters = (url: string, queryParameterBlacklist: string
       filteredQuery[key] = parsedQuery[key];
     }
   }
-  
-  return baseUrl + (Object.keys(filteredQuery).length>0 ? '?'+qs.stringify(filteredQuery) : '') + (hash ? '#'+hash : '');
+
+  return baseUrl + (Object.keys(filteredQuery).length > 0 ? '?' + qs.stringify(filteredQuery) : '') + (hash ? '#' + hash : '');
 }
 
 const LwAfDomainWhitelist: Array<string> = [
@@ -150,8 +150,8 @@ const forumDomainWhitelist: ForumOptions<Array<string>> = {
     'localhost:8300'
   ],
   ProgressForum: [
-    'progressforum.org',
-    'beta.progressforum.org',
+    'genesisfund.xyz',
+    'forum.genesisfund.xyz',
     'localhost:3000',
     'localhost:3001',
     'localhost:8300',
@@ -171,8 +171,8 @@ export const hostIsOnsite = (host: string): boolean => {
     if (host === domain) isOnsite = true;
     // If the domain differs only by the addition or removal of a "www."
     // subdomain, count it as the same.
-    if ("www."+host === domain) isOnsite = true;
-    if (host === "www."+domain) isOnsite = true;
+    if ("www." + host === domain) isOnsite = true;
+    if (host === "www." + domain) isOnsite = true;
   })
 
   return isOnsite
